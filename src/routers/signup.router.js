@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { postSigninController } from "../controllers/signin.controller.js";
-import { postSignupController } from "../controllers/signup.controller.js";
+import { getSignupController, postSignupController } from "../controllers/signup.controller.js";
 import { validateSchema } from "../middlewares/shemaValidation.js";
 import { postSigninMiddlewares } from "../middlewares/signin.middlewares.js";
 import { postSignupMiddlewares } from "../middlewares/signup.middlewares.js";
@@ -21,5 +21,6 @@ router.post(
   postSigninMiddlewares,
   postSigninController
 );
+router.get("/signup", getSignupController)
 
 export default router;
