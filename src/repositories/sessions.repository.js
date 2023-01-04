@@ -15,4 +15,29 @@ async function postSessionRepository({ userId, token }) {
   );
   return result;
 }
-export { postSessionRepository };
+
+async function consultSessionRepository({ token }) {
+ 
+  const result = await connection.query(
+    ` 
+      SELECT * FROM sessions WHERE token = '${token}'
+   `
+  );
+  return result;
+}
+
+async function getConsultSessionRepository({ userId }) {
+  const result = await connection.query(
+    ` 
+    SELECT  
+    users.name, users.email, users.photo FROM sessions
+    JOIN users ON sessions."userId" = users.id where "userId" = ${userId};
+   `
+  );
+  return result;
+}
+export {
+  postSessionRepository,
+  getConsultSessionRepository,
+  consultSessionRepository,
+};
