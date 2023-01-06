@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { postPostsController } from "../controllers/posts.controller.js";
-import { postPostsMiddlewares } from "../middlewares/posts.middleware.js";
+import { deletePostsController, postPostsController } from "../controllers/posts.controller.js";
+import { deletePostsMiddlewares, postPostsMiddlewares } from "../middlewares/posts.middleware.js";
 import { validateSchema } from "../middlewares/shemaValidation.js";
 import postPostsSchema from "../models/posts.schema.js";
 
@@ -12,5 +12,7 @@ postsRouter.post(
   postPostsMiddlewares,
   postPostsController
 );
+
+postsRouter.delete('/posts/:id', deletePostsMiddlewares,deletePostsController)
 
 export default postsRouter;

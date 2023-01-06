@@ -14,4 +14,16 @@ async function postPostsController(req, res) {
   }
 }
 
-export { postPostsController };
+async function deletePostsController(req, res) {
+  const {id} = req.params
+
+  try{
+    await connection.query('DELETE FROM posts WHERE id = $1;',[id])
+    res.status(200).send("deletado com sucasso!")
+  }catch(err){
+    console.log(err)
+    res.sendStatus(500)
+  }
+};
+
+export { postPostsController, deletePostsController };
