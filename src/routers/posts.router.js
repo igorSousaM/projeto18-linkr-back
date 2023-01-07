@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { postPostsController } from "../controllers/posts.controller.js";
+import { getPosts, postPostsController } from "../controllers/posts.controller.js";
 import { postPostsMiddlewares } from "../middlewares/posts.middleware.js";
 import { validateSchema } from "../middlewares/shemaValidation.js";
 import postPostsSchema from "../models/posts.schema.js";
@@ -11,6 +11,10 @@ postsRouter.post(
   validateSchema(postPostsSchema),
   postPostsMiddlewares,
   postPostsController
+);
+postsRouter.get(
+  "/timeline",
+  getPosts
 );
 
 export default postsRouter;
