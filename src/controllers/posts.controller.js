@@ -14,4 +14,17 @@ async function postPostsController(req, res) {
   }
 }
 
-export { postPostsController };
+async function getPosts(req, res){
+
+  try{
+    const posts = await connection.query(
+      'SELECT * FROM posts ORDER BY "createdAt" DESC LIMIT 20 ;'
+    );
+    res.send(posts.rows).status(200);
+  }catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
+
+export { postPostsController, getPosts };
