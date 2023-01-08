@@ -1,7 +1,7 @@
 import connection from "../database/db.js";
 
 
-async function deletePostsMiddlewares(req, res, next) {
+async function postValidation(req,res,next){
   const {id} = req.params
   const userId = res.locals.userId
   
@@ -13,7 +13,7 @@ async function deletePostsMiddlewares(req, res, next) {
     };
 
     if(consultPost.rows[0].userId !== userId){
-      return res.status(401).send('Você não pode deletar esse post');
+      return res.status(401).send('Você não pode alterar/deletar esse post');
     };
 
   } catch (err) {
@@ -22,6 +22,6 @@ async function deletePostsMiddlewares(req, res, next) {
   };
 
   next();
-};
+}
 
-export { deletePostsMiddlewares };
+export { postValidation};

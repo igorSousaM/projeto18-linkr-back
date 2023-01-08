@@ -1,8 +1,8 @@
 import connection from "../database/db.js";
 
 async function postPostsController(req, res) {
-  const  userId = res.locals.userId;
-  const {text, link } = req.body;
+  const userId = res.locals.userId;
+  const { text, link } = req.body;
 
   try {
     await connection.query(
@@ -40,5 +40,26 @@ async function getPosts(req, res) {
   }
 }
 
-export { postPostsController, getPosts, deletePostsController };
+async function updatePostsController(req, res) {
+  const { id } = req.params;
+  const { text, link } = req.body;
 
+  try {
+    await connection.query("UPDATE posts SET text=$1, link=$2 WHERE id = $3;", [
+      text,
+      link,
+      id,
+    ]);
+    res.status(200).send("post alterado")
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
+
+export {
+  postPostsController,
+  getPosts,
+  updatePostsController,
+  deletePostsController,
+};
