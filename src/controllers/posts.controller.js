@@ -1,7 +1,9 @@
 import connection from "../database/db.js";
 
 async function postPostsController(req, res) {
-  const { userId, text, link } = res.locals.data;
+  const  userId = res.locals.userId;
+  const {text, link } = req.body;
+
   try {
     await connection.query(
       'INSERT INTO posts ("userId", text, link) VALUES ($1,$2,$3);',
