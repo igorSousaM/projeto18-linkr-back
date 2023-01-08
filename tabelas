@@ -1,0 +1,39 @@
+/*
+
+CREATE TABLE "users" (
+    "id" SERIAL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "email" TEXT UNIQUE NOT NULL,
+    "photo" TEXT NOT NULL
+);
+
+CREATE TABLE "sessions" (
+    "id" SERIAL PRIMARY KEY,
+    "userId" INTEGER NOT NULL REFERENCES "users"("id"),
+    "token" TEXT NOT NULL,
+    "createdAt" TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE "posts" (
+    "id" SERIAL PRIMARY KEY,
+    "userId" INTEGER NOT NULL REFERENCES "users"("id"),
+    "text" TEXT NOT NULL,
+    "link" TEXT NOT NULL,
+    "createdAt" TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE "likes" (
+    "id" SERIAL PRIMARY KEY,
+    "userId" INTEGER NOT NULL REFERENCES "users"("id"),
+    "postId" INTEGER NOT NULL REFERENCES "posts"("id"),
+    "createdAt" TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE "hashtags" (
+    "id" SERIAL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "postId" INTEGER NOT NULL REFERENCES "posts"("id")
+)
+
+*/

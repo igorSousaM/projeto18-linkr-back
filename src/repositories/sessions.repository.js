@@ -29,8 +29,8 @@ async function consultSessionRepository({ token }) {
 async function getConsultSessionRepository({ userId }) {
   const result = await connection.query(
     ` 
-    SELECT  
-    users.name, users.email, users.photo FROM sessions
+    SELECT
+    users.id, users.name, users.email, users.photo FROM sessions
     JOIN users ON sessions."userId" = users.id where "userId" = ${userId};
    `
   );

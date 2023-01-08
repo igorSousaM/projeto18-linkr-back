@@ -15,15 +15,28 @@ async function postPostsController(req, res) {
 }
 
 async function deletePostsController(req, res) {
-  const {id} = req.params
+  const { id } = req.params;
 
-  try{
-    await connection.query('DELETE FROM posts WHERE id = $1;',[id])
-    res.status(200).send("deletado com sucasso!")
-  }catch(err){
-    console.log(err)
-    res.sendStatus(500)
+  try {
+    await connection.query("DELETE FROM posts WHERE id = $1;", [id]);
+    res.status(200).send("deletado com sucasso!");
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
   }
-};
+}
 
-export { postPostsController, deletePostsController };
+async function getPosts(req, res) {
+  try {
+    const posts = await connection.query(
+      'SELECT * FROM posts ORDER BY "createdAt" DESC LIMIT 20 ;'
+    );
+    res.send(posts.rows).status(200);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
+
+export { postPostsController, getPosts, deletePostsController };
+
