@@ -3,9 +3,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 
 
-import likesRouter from "./routers/likes.router.js";
-import hashtagRouter from "./routers/hashtag.router.js";
-
 import router from "./routers/index.js";
 
 
@@ -16,9 +13,7 @@ dotenv.config();
 app.use(cors());
 
 
- 
-app.use(likesRouter)
-app.use(hashtagRouter)
+
 app.use(router)
   
 const port = process.env.PORT
