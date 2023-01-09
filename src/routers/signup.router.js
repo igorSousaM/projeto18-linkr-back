@@ -7,20 +7,20 @@ import { postSignupMiddlewares } from "../middlewares/signup.middlewares.js";
 import postSigninSchema from "../models/signin.schema.js";
 import { postSignupSchema } from "../models/signup.schema.js";
 
-const router = Router();
+const signRouter = Router();
 
-router.post(
+signRouter.post(
   "/signup",
   validateSchema(postSignupSchema),
   postSignupMiddlewares,
   postSignupController
 );
-router.post(
+signRouter.post(
   "/signin",
   validateSchema(postSigninSchema),
   postSigninMiddlewares,
   postSigninController
 );
-router.get("/signup", getSignupController)
+signRouter.get("/signup", getSignupController)
 
-export default router;
+export default signRouter;

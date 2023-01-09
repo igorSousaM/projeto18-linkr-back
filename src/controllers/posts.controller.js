@@ -1,7 +1,9 @@
 import connection from "../database/db.js";
 
 async function postPostsController(req, res) {
-  const { userId, text, link } = res.locals.data;
+  const userId = res.locals.userId;
+  const { text, link } = req.body;
+
   try {
     await connection.query(
       'INSERT INTO posts ("userId", text, link) VALUES ($1,$2,$3);',
@@ -37,19 +39,52 @@ async function postPostsController(req, res) {
   }
 }
 
-async function getPosts(req, res){
+async function deletePostsController(req, res) {
+  const { id } = req.params;
 
-  try{
+  try {
+    await connection.query("DELETE FROM posts WHERE id = $1;", [id]);
+    res.status(200).send("deletado com sucasso!");
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
+
+async function getPosts(req, res) {
+  try {
     const posts = await connection.query(
       `SELECT p.id, p."userId", p.text, p.link, COUNT(l.*) AS "likeCount"  FROM posts 
       AS p LEFT JOIN likes AS l 
       ON p.id = l."postId" GROUP BY p.id ORDER BY p."createdAt" DESC LIMIT 20 ;`
     );
     res.send(posts.rows).status(200);
-  }catch (err) {
+  } catch (err) {
     console.log(err);
     res.sendStatus(500);
   }
 }
 
-export { postPostsController, getPosts };
+async function updatePostsController(req, res) {
+  const { id } = req.params;
+  const { text, link } = req.body;
+
+  try {
+    await connection.query("UPDATE posts SET text=$1, link=$2 WHERE id = $3;", [
+      text,
+      link,
+      id,
+    ]);
+    res.status(200).send("post alterado")
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
+
+export {
+  postPostsController,
+  getPosts,
+  updatePostsController,
+  deletePostsController,
+};
