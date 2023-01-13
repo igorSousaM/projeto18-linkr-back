@@ -17,4 +17,19 @@ async function postCommentController(req, res) {
   }
 }
 
-export { postCommentController };
+async function getCommentController(req, res) {
+  const { id } = req.params;
+
+  try {
+    const commentsConsult = await connection.query(
+      'SELECT text,"userId" FROM comments WHERE "postId"=$1;',
+      [id]
+    );
+    res.status(200).send(commentsConsult.rows);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
+
+export { postCommentController, getCommentController };
