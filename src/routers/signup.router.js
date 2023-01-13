@@ -14,8 +14,8 @@ signRouter.post(
   validateSchema(postSignupSchema),
   postSignupMiddlewares,
   postSignupController
-);
-signRouter.post(
+);  
+signRouter.post(   
   "/signin",
   validateSchema(postSigninSchema),
   postSigninMiddlewares,
