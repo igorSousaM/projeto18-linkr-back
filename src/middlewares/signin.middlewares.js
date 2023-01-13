@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 async function postSigninMiddlewares(req, res, next) {
   let { email, password } = req.body;
   const consult = await allSignup.getConsultSignupRepository({ email });
-
+console.log( consult.rows[0].password)
   if (
     consult.rows.length === 0 ||
     !bcrypt.compareSync(password, consult.rows[0].password)
