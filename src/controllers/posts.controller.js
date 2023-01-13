@@ -60,9 +60,9 @@ async function deletePostsController(req, res) {
 async function getPosts(req, res) {
   try {
     const posts = await connection.query(
-      `SELECT p.id, p."userId", p.text, p.link, COUNT(l.*) AS "likeCount"  FROM posts 
+      `SELECT p.id, p."userId", p.text, p.link, COUNT(l.*) AS "likeCount", u.name,u.image  FROM posts 
       AS p LEFT JOIN likes AS l 
-      ON p.id = l."postId" GROUP BY p.id ORDER BY p."createdAt" DESC LIMIT 20 ;`
+      ON p.id = l."postId" JOIN users u ON p."userId"=u.id GROUP BY p.id ORDER BY p."createdAt" DESC LIMIT 20 ;`
     );
    return res.send(posts.rows).status(200);
   } catch (err) {
