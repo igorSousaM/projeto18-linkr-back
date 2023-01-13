@@ -11,27 +11,30 @@ async function postPostsController(req, res) {
     );
 
     const post = await connection.query(
-      `SELECT * FROM posts WHERE "userId" = $1 AND "text" = $2 AND "link" = $3;`
-    ,[userId, text, link])
+      `SELECT * FROM posts WHERE "userId" = $1 AND "text" = $2 AND "link" = $3;`,
+      [userId, text, link]
+    );
     const postId = post.rows[0].id;
-    
-      console.log(postId)
 
-      const hashtags = [];
-      for (let i = 0; i < text.length; i++) {
-          if (text.charAt(i) === '#') {
-              const stopIndex = text.indexOf(' ', i);
-              if (stopIndex !== -1)
-                  hashtags.push(text.substring(i + 1, stopIndex));
-          }
+    console.log(postId);
+
+    const hashtags = [];
+    for (let i = 0; i < text.length; i++) {
+      if (text.charAt(i) === "#") {
+        const stopIndex = text.indexOf(" ", i);
+        if (stopIndex !== -1) hashtags.push(text.substring(i + 1, stopIndex));
       }
+    }
 
-      console.log(hashtags)
+    console.log(hashtags);
 
-    hashtags.map(async e => {
-      await connection.query(`INSERT INTO hashtags (name, "postId") VALUES ($1, $2)`,[e,postId])
-    })
-    
+    hashtags.map(async (e) => {
+      await connection.query(
+        `INSERT INTO hashtags (name, "postId") VALUES ($1, $2)`,
+        [e, postId]
+      );
+    });
+
     res.send("deu bom, olha o console!").status(200);
   } catch (err) {
     console.log(err);
@@ -75,7 +78,7 @@ async function updatePostsController(req, res) {
       link,
       id,
     ]);
-    res.status(200).send("post alterado")
+    res.status(200).send("post alterado");
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
